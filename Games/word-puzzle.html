@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethics Enigma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: hsl(168, 56%, 89%);
+        color: #333;
+    }
+
+    header {
+display: flex;
+align-items: center;
+justify-content: space-between; /* Ensures elements in the header are spaced properly */
+padding: 10px 20px;
+background-color: #f8f9fa; /* Light background for the header */
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a slight shadow */
+}
+
+header .logo {
+display: flex; /* Ensures proper alignment */
+align-items: center; /* Vertically aligns the logo */
+}
+
+header .logo img {
+height: 100px; /* Ensures the logo height is consistent */
+}
+
+.puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-gap: 5px;
+            margin: 20px auto;
+            width: 420px;
+        }
+
+        .puzzle-piece, .puzzle-slot {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .puzzle-piece {
+            background-color: #007bff;
+            color: white;
+            font-size: 18px;
+            border-radius: 20px;
+        }
+
+        .puzzle-slot {
+            background-color: #eaeaea;
+            border-radius: 20px;
+        }
+
+        .puzzle-piece.correct {
+            background-color: #28a745;
+            cursor: default;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .puzzle-container {
+                grid-template-columns: repeat(3, 100px);
+                width: 350px;
+            }
+
+            .puzzle-piece, .puzzle-slot {
+                width: 90px;
+                height: 90px;
+                font-size: 16px;
+            }
+
+            #result {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .puzzle-container {
+                grid-template-columns: repeat(2, 100px);
+                width: 220px;
+            }
+
+            .puzzle-piece, .puzzle-slot {
+                width: 80px;
+                height: 80px;
+                font-size: 14px;
+            }
+
+            #result {
+                font-size: 18px;
+            }
+        }
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <a href="../index.html"><img  src="pictures/logo.png" alt="Coconut Company Logo"></a>
+        </div>
+       
+    </header>
+
+    <center><h1>Ethics Enigma</h1></center>
+
+    <p style="text-align: center;">Drag and drop the puzzle pieces into the correct slots to complete the anti-doping message!</p>
+    
+    <h3 id="question-number" style="margin-left: 35%;">Question 1</h3>
+    <div class="puzzle-container" id="puzzle-container" ></div>
+
+
+    <div id="result"></div>
+
+    <!-- Audio Elements -->
+    <audio id="correct-sound" src="music/correct.mp3"></audio>
+    <audio id="error-sound" src="music/incorrect.mp3"></audio>
+
+    <script>
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const resultDiv = document.getElementById('result');
+        const questionNumberHeader = document.getElementById('question-number');
+        const questions = [
+            { slots: ["To", "!", "Say No", "Doping"], pieces: ["Say No", "To", "Doping", "!"] },
+            { slots: ["Integrity", "Win", "!", "With"], pieces: ["Win", "With", "Integrity", "!"] },
+            { slots: ["Stay", "Play", "Safe", "Clean"], pieces: ["Play", "Clean", "Stay", "Safe"] },
+            { slots: ["Be", "Strong", "Avoid", "Drugs"], pieces: ["Avoid", "Drugs", "Be", "Strong"] },
+            { slots: ["Say No", "Focused", "Stay", "To Doping"], pieces: ["Stay", "Focused", "Say No", "To Doping"] }
+        ];
+
+        function updateQuestionNumber() {
+    const questionNumberHeader = document.getElementById('question-number');
+    questionNumberHeader.textContent = `Question ${currentQuestionIndex + 1}`;
+}
+
+
+        let score = 0;
+        let currentQuestionIndex = 0;
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+    updateQuestionNumber(); // Update question number display
+    puzzleContainer.innerHTML = '';
+    resultDiv.textContent = '';
+
+    // Add slots with numbers
+    question.slots.forEach((slot, index) => {
+    const div = document.createElement('div');
+    div.classList.add('puzzle-slot');
+    div.setAttribute('data-piece', index + 1);
+
+    // Add slot number as text with a light color in the center
+    const slotNumber = document.createElement('span');
+    slotNumber.textContent = "Slot " + (index + 1); // Display "Slot 1", "Slot 2", etc.
+    slotNumber.style.color = '#aaa'; // Light grey color for numbers
+    slotNumber.style.fontSize = '14px'; // Adjust font size
+    slotNumber.style.fontWeight = 'bold'; // Slightly bold for better visibility
+
+    div.style.position = 'relative'; // Ensure the slot is positioned relative
+    div.appendChild(slotNumber); // Add the number to the slot
+    puzzleContainer.appendChild(div);
+});
+
+
+    // Add pieces (shuffled)
+    const shuffledPieces = question.pieces
+        .map((piece, index) => ({ piece, index: index + 1 }))
+        .sort(() => Math.random() - 0.5);
+
+    shuffledPieces.forEach(({ piece, index }) => {
+        const div = document.createElement('div');
+        div.classList.add('puzzle-piece');
+        div.setAttribute('draggable', 'true');
+        div.setAttribute('data-piece', index);
+        div.textContent = piece;
+        puzzleContainer.appendChild(div);
+    });
+
+    enableDragAndDrop();
+}
+
+            
+        window.addEventListener('load', () => {
+    setTimeout(() => {
+        Swal.fire({
+            title: 'Welcome to Ethics Enigma',
+            text: 'Drag and drop the puzzle pieces into the correct slots to complete the anti-doping message!',
+            icon: 'info',
+            confirmButtonText: 'Got it!'
+        }).then(() => {
+            loadQuestion(); // Start the game after the user acknowledges
+        });
+    }, 1000); // 2000 milliseconds = 2 seconds
+});
+
+        function enableDragAndDrop() {
+            const puzzleSlots = document.querySelectorAll('.puzzle-slot');
+            const puzzlePieces = document.querySelectorAll('.puzzle-piece');
+
+            puzzlePieces.forEach(piece => {
+                piece.addEventListener('dragstart', dragStart);
+            });
+
+            puzzleSlots.forEach(slot => {
+                slot.addEventListener('dragover', dragOver);
+                slot.addEventListener('drop', dropPiece);
+            });
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.getAttribute('data-piece'));
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            if (sound) {
+                sound.currentTime = 0; // Reset the sound to the start
+                sound.play();
+            }
+        }
+
+        function dropPiece(e) {
+    e.preventDefault();
+    
+    const droppedPiece = e.dataTransfer.getData('text/plain');
+    const targetSlot = e.target.closest('.puzzle-slot'); // Ensure the target is the slot
+
+    if (targetSlot && targetSlot.getAttribute('data-piece') === droppedPiece) {
+        const piece = document.querySelector(`.puzzle-piece[data-piece='${droppedPiece}']`);
+
+        // Clear any existing content inside the slot before appending
+        targetSlot.innerHTML = '';
+        targetSlot.appendChild(piece);
+
+        piece.classList.add('correct');
+        piece.setAttribute('draggable', 'false'); // Make the piece non-draggable
+
+        playSound('correct-sound'); // Play correct sound
+
+        // Check if all pieces are correctly placed
+        if (document.querySelectorAll('.puzzle-piece.correct').length === 4) {
+            score++;
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                setTimeout(() => {
+                    Swal.fire({
+                        title: 'Correct!',
+                        text: `Great job! Moving to question ${currentQuestionIndex + 1}.`,
+                        icon: 'success',
+                        confirmButtonText: 'Next'
+                    }).then(() => {
+                        loadQuestion();
+                    });
+                }, 500);
+            } else {
+                Swal.fire({
+                    title: 'Congratulations!',
+                    text: `You scored ${score}/${questions.length}! Do you want to play again?`,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Restart'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        score = 0;
+                        currentQuestionIndex = 0;
+                        loadQuestion();
+                    }
+                });
+            }
+        }
+    } else {
+        playSound('error-sound'); // Play error sound
+        Swal.fire({
+            title: 'Oops!',
+            text: 'That piece does not fit here. Try again!',
+            icon: 'error',
+            confirmButtonText: 'Okay'
+        });
+    }
+}
+
+         
+
+        // Initialize the game
+        loadQuestion();
+    </script>
+</body>
+</html>

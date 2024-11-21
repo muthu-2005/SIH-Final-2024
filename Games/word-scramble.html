@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Whirl</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: hsl(168, 56%, 89%);
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 100px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        #scrambled-word {
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #next-btn,
+        #hint-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #hint-btn {
+            background-color: #ffc107;
+        }
+
+        #hint-btn:hover {
+            background-color: #e0a800;
+        }
+
+        #question-counter {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../index.html"><img src="https://dopeshield-sih24.netlify.app/pictures/logo.png" alt="Coconut Company Logo"></a>
+        </div>
+    </header>
+
+    <center>
+        <h1>Word Whirl</h1>
+    </center>
+
+    <div class="container">
+        <center>
+            <h2>Scramble the Words</h2>
+            <div id="scrambled-word"></div>
+            <input type="text" id="guess" placeholder="Type your guess here">
+            <br>
+         
+            <button id="hint-btn" onclick="showHint()">Hint</button>
+            <button onclick="checkAnswer()">Submit</button>
+            <button id="next-btn" onclick="nextWord()">Next Word</button>
+            <div id="message"></div>
+            <div id="question-counter"></div>
+        </center>
+    </div>
+
+    <script>
+        // List of words and their clues
+        const words = [
+            { word: "STEROID", clue: "A banned substance for unfair advantage." },
+            { word: "WADA", clue: "World anti-doping body." },
+            { word: "DOPING", clue: "Cheating in sports by using drugs." },
+            { word: "NADA", clue: "National anti-doping agency." },
+            { word: "FAIRPLAY", clue: "Ethical sports conduct." },
+            { word: "ANTI-DOPING", clue: "Preventing drug misuse in sports." },
+            { word: "SPORTSMANSHIP", clue: "Respect and fair behavior in sports." },
+            { word: "INTEGRITY", clue: "Upholding ethical principles." },
+            { word: "CHEATING", clue: "Dishonest behavior to gain advantage." },
+            { word: "DISCIPLINE", clue: "Essential quality for athletes." }
+        ];
+
+        let shuffledWords = [];
+        let currentWordObj = {};
+        let scrambledWord = "";
+        let currentQuestion = 1;
+        const totalQuestions = 10;
+
+        // Load sound files
+        const correctSound = new Audio('music/correct.mp3');
+        const incorrectSound = new Audio('music/incorrect.mp3');
+
+        // Shuffle array function to randomize words
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Shuffle individual word
+        function shuffleWord(word) {
+            return word.split('').sort(() => 0.5 - Math.random()).join('');
+        }
+
+        // Initialize game
+        function initializeGame() {
+            shuffledWords = shuffleArray([...words]);
+            currentQuestion = 1;
+            loadWord();
+        }
+
+        // Load the current word to be unscrambled
+        function loadWord() {
+            if (currentQuestion > totalQuestions) {
+                gameOver();
+                return;
+            }
+
+            currentWordObj = shuffledWords[currentQuestion - 1];
+            scrambledWord = shuffleWord(currentWordObj.word);
+            document.getElementById('scrambled-word').textContent = scrambledWord;
+            document.getElementById('guess').value = '';
+            document.getElementById('message').textContent = '';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('hint-btn').style.display = 'inline';
+            document.getElementById('question-counter').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+        }
+
+        // Show hint functionality
+        function showHint() {
+            const hintBtn = document.getElementById('hint-btn');
+            hintBtn.style.display = 'none';
+            Swal.fire({
+                title: 'Hint',
+                text: currentWordObj.clue,
+                icon: 'info',
+                timer: 10000,
+                timerProgressBar: true
+            });
+        }
+
+        // Check the answer
+        function checkAnswer() {
+            const guess = document.getElementById('guess').value.toUpperCase();
+            const message = document.getElementById('message');
+
+            if (guess === currentWordObj.word) {
+                message.textContent = "Correct! Well done!";
+                message.style.color = "green";
+                correctSound.play();  // Play correct sound
+                document.getElementById('next-btn').style.display = 'inline';
+                document.getElementById('hint-btn').style.display = 'none';
+            } else {
+                message.textContent = "Incorrect. Try again!";
+                message.style.color = "red";
+                incorrectSound.play();  // Play incorrect sound
+            }
+        }
+
+        // Move to the next word
+        function nextWord() {
+            currentQuestion++;
+            loadWord();
+        }
+
+        // End the game
+        function gameOver() {
+            Swal.fire({
+                title: 'Game Over!',
+                text: `You have completed all ${totalQuestions} questions. Would you like to play again?`,
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Restart',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    initializeGame();
+                }
+            });
+        }
+
+        // Show welcome instructions when the page loads
+        Swal.fire({
+    title: 'Welcome to the Word Whirl!',
+    text: 'Unscramble the word and get it right. Click "Hint" for help! \n\nRule: Only type the words yourself; do not use suggested words from the system.',
+    icon: 'info',
+    confirmButtonText: 'Let’s Play'
+}).then(() => {
+    initializeGame();
+});
+
+    </script>
+</body>
+
+</html

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: hsl(168, 56%, 89%);
+        color: #333;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    header .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    header .logo img {
+        height: 100px;
+    }
+
+    video {
+            width: 100vw;
+           height: 95vh;
+            object-fit: cover;
+        }
+
+        #questionBox {
+            margin-top: 10%;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: left;
+        }
+
+        #questionBox h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #e0f7fa;
+        }
+
+        .option.selected {
+            background-color: #b2dfdb;
+            border-color: #00796b;
+        }
+
+
+        @media (max-width: 768px) {
+            video {
+                height: auto; /* Adjusts video height on smaller screens */
+                object-fit: cover;
+            }
+            #questionBox {
+                width: 90%;
+                padding: 15px;
+                max-height: 80vh;
+            }
+
+            #questionBox h2 {
+                font-size: 20px;
+            }
+
+            .option {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            video {
+                height: auto; /* Adjusts for smaller screens like phones */
+            }
+            #questionBox {
+                margin-top: 50%;
+                width: 95%;
+                padding: 10px;
+            }
+
+            #questionBox h2 {
+                font-size: 18px;
+            }
+
+            .option {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
+<body>
+    <header>
+        <div class="logo">
+            <a href="../index.html"><img src="https://dopeshield-sih24.netlify.app/pictures/logo.png" alt="Coconut Company Logo"></a>
+        </div>
+    </header>
+
+    <center>
+        <h1>Honour Quest</h1>
+    </center>
+    <video id="myVideo" autoplay muted>
+        <source src="video/video-game.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="questionBox">
+        <h2 id="questionText">Question will appear here</h2>
+        <div id="optionsContainer"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const questionBox = document.getElementById('questionBox');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+
+        let currentQuestionIndex = 0;
+        let questionInterval;
+
+        const questions = [
+            {
+                text: "Which of the following actions aligns with anti-doping regulations?",
+                options: [
+                    { text: "Taking supplements without consulting an expert.", correct: false },
+                    { text: "Ensuring no banned substances are in your diet.", correct: true },
+                    { text: "Using performance-enhancing drugs for recovery.", correct: false },
+                    { text: "Relying solely on advertisements for supplement choices.", correct: false },
+                ],
+            },
+            {
+                text: "Which organization governs anti-doping efforts worldwide?",
+                options: [
+                    { text: "World Health Organization (WHO)", correct: false },
+                    { text: "World Anti-Doping Agency (WADA)", correct: true },
+                    { text: "International Sports Federation", correct: false },
+                    { text: "National Olympic Committee", correct: false },
+                ],
+            },
+            {
+                text: "What should athletes check before using any medication?",
+                options: [
+                    { text: "Their sponsor's approval", correct: false },
+                    { text: "The list of banned substances", correct: true },
+                    { text: "The manufacturer's reviews", correct: false },
+                    { text: "The product's expiry date", correct: false },
+                ],
+            },
+            {
+                text: "What is a key component of ethical sportsmanship?",
+                options: [
+                    { text: "Avoiding detection of banned substances", correct: false },
+                    { text: "Fair play and respect for the rules", correct: true },
+                    { text: "Winning at any cost", correct: false },
+                    { text: "Ignoring medical advice", correct: false },
+                ],
+            },
+            {
+                text: "How can athletes stay informed about banned substances?",
+                options: [
+                    { text: "By regularly checking official anti-doping lists", correct: true },
+                    { text: "By trusting friends' recommendations", correct: false },
+                    { text: "By using only natural products", correct: false },
+                    { text: "By avoiding any supplements", correct: false },
+                ],
+            },
+        ];
+
+        function startQuestionInterval() {
+            questionInterval = setInterval(() => {
+                if (currentQuestionIndex < questions.length) {
+                    pauseAndShowQuestion();
+                } else {
+                    clearInterval(questionInterval); // Stop the interval when all questions are answered
+                }
+            }, 6000); // Trigger every 5 seconds
+        }
+
+        function pauseAndShowQuestion() {
+            video.pause();
+            questionBox.style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            questionText.textContent = `Question ${currentQuestionIndex + 1}: ${question.text}`;
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option');
+                optionDiv.textContent = option.text;
+                optionDiv.onclick = () => handleOptionSelection(index, option.correct);
+                optionsContainer.appendChild(optionDiv);
+            });
+        }
+
+        function handleOptionSelection(index, isCorrect) {
+            if (isCorrect) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Correct!',
+                    text: 'You answered correctly.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                }).then(() => {
+                    nextQuestion();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Wrong!',
+                    text: 'The correct answer will be shown.',
+                    timer: 1000,
+                    showConfirmButton: false,
+                }).then(() => {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Correct Answer',
+                        text: questions[currentQuestionIndex].options.find(opt => opt.correct).text,
+                        timer: 1000,
+                        showConfirmButton: false,
+                    }).then(() => {
+                        nextQuestion();
+                    });
+                });
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                questionBox.style.display = 'none';
+                video.play();
+            } else {
+                questionBox.style.display = 'none';
+                video.play();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Game Complete!',
+                    text: 'Congratulations, you finished all questions!',
+                    timer: 4000,
+                    showConfirmButton: false,
+                });
+            }
+        }
+
+        window.onload = () => {
+            video.play();
+            startQuestionInterval(); // Start triggering questions every 5 seconds
+        };
+    </script>
+    
+</body>
+</html>
