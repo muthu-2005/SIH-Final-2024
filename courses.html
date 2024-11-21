@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/images">
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <link
+    href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<style>
+     html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: hsl(168, 56%, 89%);
+            color: #333;
+        }
+
+        header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensures elements in the header are spaced properly */
+    padding: 10px 20px;
+    background-color: #f8f9fa; /* Light background for the header */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a slight shadow */
+}
+
+header .logo {
+    display: flex; /* Ensures proper alignment */
+    align-items: center; /* Vertically aligns the logo */
+}
+
+header .logo img {
+    height: 100px; /* Ensures the logo height is consistent */
+}
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img  src="pictures/logo.png" alt="Coconut Company Logo"></a>
+        </div>
+       
+    </header>
+    <section class="section course" id="courses" aria-label="course">
+        <div class="container">
+
+          <p class="section-subtitle">Popular Courses</p>
+
+          <h2 class="h2 section-title">Pick A Course To Get Started</h2>
+
+          <ul class="grid-list">
+
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course1.png" width="370" height="220" loading="lazy"
+                    alt="Course-1" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">2 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Beginner</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course1.html" class="card-title">Introduction to Anti-Doping Education          </a>
+                  </h3>
+
+                  <!-- <div class="wrapper">
+
+                    <div class="rating-wrapper">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                    </div>
+
+                    <p class="rating-text">(5.0/7 Rating)</p>
+
+                  </div>
+
+                  <data class="price" value="29">₹99</data> 
+
+                  <ul class="card-meta-list">
+
+                    <li class="card-meta-item">
+                      <ion-icon name="library-outline" aria-hidden="true"></ion-icon>
+
+                      <span class="span">3 Lessons</span>
+                    </li>
+
+                    <li class="card-meta-item">
+                      <ion-icon name="people-outline" aria-hidden="true"></ion-icon>
+
+                      <span class="span">20 Students</span>
+                    </li>
+
+                  </ul> -->
+
+                </div>
+
+              </div>
+            </li>
+
+            
+
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course2.png" width="370" height="220" loading="lazy"
+                    alt="Course-3" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">2 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Beginner</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course2.html" class="card-title">Understanding Doping and Its Consequences   </a>
+                  </h3>
+
+                  
+                </div>
+
+              </div>
+            </li>
+           
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course3.png" width="370" height="220" loading="lazy"
+                    alt="Course-3" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">4 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Intermediate</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course3.html" class="card-title">Anti-Doping Rules, Regulations, and Legalities</a>
+                  </h3>
+
+                  
+                </div>
+
+              </div>
+            </li>
+           
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course4.png" width="370" height="220" loading="lazy"
+                    alt="Course-3" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">4 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Intermediate</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course4.html" class="card-title">Testing, Detection, and Athlete Rights</a>
+                  </h3>
+
+                  
+                </div>
+
+              </div>
+            </li>
+   
+           
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course5.png" width="370" height="220" loading="lazy"
+                    alt="Course-5" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">6 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Advanced</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course5.html" class="card-title">Comprehensive Education and Athlete Support</a>
+                  </h3>
+
+                  <!-- <div class="wrapper">
+
+                    <div class="rating-wrapper">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                    </div>
+
+                    <p class="rating-text">(4.9 /7 Rating)</p>
+
+                  </div>
+
+                   <data class="price" value="35">₹299</data> 
+
+                  <ul class="card-meta-list">
+
+                    <li class="card-meta-item">
+                      <ion-icon name="library-outline" aria-hidden="true"></ion-icon>
+
+                      <span class="span">4 Lessons</span>
+                    </li>
+
+                    <li class="card-meta-item">
+                      <ion-icon name="people-outline" aria-hidden="true"></ion-icon>
+
+                      <span class="span">18 Students</span>
+                    </li>
+
+                  </ul> -->
+
+                </div>
+
+              </div>
+            </li>
+            <li>
+              <div class="course-card">
+
+                <figure class="card-banner img-holder" style="--width: 370; --height: 220;">
+                  <img src="pictures/Course6.png" width="370" height="220" loading="lazy"
+                    alt="Course-3" class="img-cover">
+                </figure>
+
+                <div class="abs-badge">
+                  <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+
+                  <span class="span">6 Weeks</span>
+                </div>
+
+                <div class="card-content">
+
+                  <span class="badge">Advanced</span>
+
+                  <h3 class="h3">
+                    <a href="Courses/Course6.html" class="card-title">Innovations and Future Developments in Anti-Doping</a>
+                  </h3>
+
+                  
+                </div>
+
+              </div>
+            </li>
+           
+
+
+          </ul>
+
+         
+
+        </div>
+      </section>
+   
+
+
+</body>
+</html>

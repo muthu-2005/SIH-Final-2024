@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Modules - Introduction to Anti-Doping Education</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, hsl(170, 75%, 41%), hsl(190, 60%, 60%));
+            min-height: 100vh;
+            color: #333;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: hsl(170, 75%, 41%);
+            margin-bottom: 1.5rem;
+        }
+
+        .course-section h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: hsl(170, 75%, 41%);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .module-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .module-item {
+            background: #f8f8f8;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .module-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-title {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .start-btn {
+            background: hsl(170, 75%, 41%);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .start-btn:hover {
+            background: hsl(170, 65%, 35%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Introduction to Anti-Doping Education</h2>
+
+        <div class="course-section">
+            <h3>Course Modules</h3>
+            <ul class="module-list">
+                <li class="module-item">
+                    <span class="module-title">Module 1: What is Doping?</span>
+                    <button class="start-btn">Start</button>
+                </li>
+                <li class="module-item">
+                    <span class="module-title">Module 2: Why is Anti-Doping Important?</span>
+                    <button class="start-btn">Start</button>
+                </li>
+                <li class="module-item">
+                    <span class="module-title">Module 3: Global Anti-Doping Efforts</span>
+                    <button class="start-btn">Start</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
