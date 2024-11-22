@@ -674,29 +674,57 @@
         - #FEEDBACK
       -->
   
-  <section class="section feedback" id="feedback" aria-label="feedback">
-    <div class="container">
-      <div class="feedback-content">
-  
-        <p class="section-subtitle">We Value Your Opinion</p>
-  
-        <form class="feedback-form">
-          <label for="name" class="form-label">Your Name</label>
-          <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required>
-  
-          <label for="email" class="form-label">Your Email</label>
-          <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
-  
-          <label for="feedback" class="form-label">Your Feedback</label>
-          <textarea id="feedback" name="feedback" class="form-textarea" placeholder="Share your thoughts" required></textarea>
-  
-          <button type="submit" class="form-submit">Submit Feedback</button>
-        </form>
-  
-      </div>
-  
-    </div>
-  </section>
+ <section class="section feedback" id="feedback" aria-label="feedback">
+        <div class="container">
+            <div class="feedback-content">
+                <p class="section-subtitle">We Value Your Opinion</p>
+    
+                <form name="feedback-form" class="feedback-form">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required>
+    
+                    <label for="email" class="form-label">Your Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+    
+                    <label for="feedback" class="form-label">Your Feedback</label>
+                    <textarea id="feedback" name="feedback" class="form-textarea" placeholder="Share your thoughts" required style="font-family: poppins;"></textarea>
+    
+                    <button type="submit" class="form-submit">Submit Feedback</button>
+                </form>
+    
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    const scriptURL = 'https://script.google.com/macros/s/AKfycbwbYl6o20aWIyzQ2iimF_-nQ-Nl7HNR_tZMJmdANVDU0nXcm2xIXa3YDkZq_-BOOkjB/exec';
+                    const form = document.forms['feedback-form'];
+    
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+    
+                        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                            .then(() => {
+                                Swal.fire({
+                                    title: 'Thank You!',
+                                    text: 'Your feedback has been submitted successfully.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    form.reset(); // Reset the form after successful submission
+                                });
+                            })
+                            .catch((error) => {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'There was a problem submitting your feedback. Please try again later.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                                console.error('Error!', error.message);
+                            });
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
 
 
 <!-- 
